@@ -1,11 +1,13 @@
 
+import java.util.Objects;
+
 class Node<T> {
     T data;
     Node<T> next;
 
     Node(T data) {
         this.data = data;
-        next = null;
+        this.next = null;
     }
 }
 
@@ -13,85 +15,99 @@ class MyLinkedList<T> {
     private Node<T> head;
     private int size = 0;
 
+    // Insert an element
     void insert(T data) {
         Node<T> newNode = new Node<>(data);
 
         if (head == null) {
             head = newNode;
         } else {
-            Node<T> current = head;
+            Node<T> temp = head;
 
-            while (current.next != null) {
-                current = current.next;
+            while (temp.next != null) {
+                temp = temp.next;
             }
 
-            current.next = newNode;
+            temp.next = newNode;
         }
+
         size++;
     }
 
+    // Delete an element
     void delete(T data) {
         if (head == null) {
-            System.out.println("List is Empty");
+            System.out.println("List is empty.");
             return;
         }
 
-        if (java.util.Objects.equals(head.data, data)) {
+        if (Objects.equals(head.data, data)) {
             head = head.next;
             size--;
             return;
         }
 
-        Node<T> current = head;
+        Node<T> temp = head;
 
-        while (current.next != null &&
-               !java.util.Objects.equals(current.next.data, data)) {
-            current = current.next;
+        while (temp.next != null &&
+               !Objects.equals(temp.next.data, data)) {
+            temp = temp.next;
         }
 
-        if (current.next != null) {
-            current.next = current.next.next;
+        if (temp.next != null) {
+            temp.next = temp.next.next;
             size--;
         } else {
-            System.out.println("Element Not Found");
+            System.out.println("Element not found.");
         }
     }
 
+    // Search an element
     boolean search(T data) {
-        Node<T> current = head;
+        Node<T> temp = head;
 
-        while (current != null) {
-            if (java.util.Objects.equals(current.data, data)) {
+        while (temp != null) {
+            if (Objects.equals(temp.data, data)) {
                 return true;
             }
-            current = current.next;
+            temp = temp.next;
         }
 
         return false;
     }
 
+    // Display the list
     void display() {
-        Node<T> current = head;
+        Node<T> temp = head;
 
-        while (current != null) {
-            System.out.print(current.data + " ");
-            current = current.next;
+        if (temp == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
         }
 
         System.out.println();
     }
 
+    // Return list size
     int size() {
         return size;
     }
 
+    // Check whether list is empty
     boolean isEmpty() {
-        return size == 0;
+        return head == null;
     }
 }
 
-public class Practical9 {
+// Main class for Programiz
+public class Main {
     public static void main(String[] args) {
+
         MyLinkedList<Integer> list = new MyLinkedList<>();
 
         list.insert(10);
@@ -104,6 +120,7 @@ public class Practical9 {
         System.out.println("Search 20: " + list.search(20));
 
         list.delete(20);
+
         System.out.print("After Deletion: ");
         list.display();
 
@@ -111,6 +128,7 @@ public class Practical9 {
         System.out.println("Is Empty: " + list.isEmpty());
 
         MyLinkedList<String> names = new MyLinkedList<>();
+
         names.insert("Rahul");
         names.insert("Aman");
 
@@ -118,4 +136,3 @@ public class Practical9 {
         names.display();
     }
 }
-
