@@ -1,12 +1,9 @@
-
 import java.util.*;
 
-// Interface
 interface Borrowable {
     void borrow();
 }
 
-// Abstract class
 abstract class Item {
     private int id;
     private String title;
@@ -16,18 +13,17 @@ abstract class Item {
         this.title = title;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
     abstract void display();
 }
 
-// Inheritance and interface implementation
 class Book extends Item implements Borrowable {
     private boolean borrowed = false;
 
@@ -35,13 +31,6 @@ class Book extends Item implements Borrowable {
         super(id, title);
     }
 
-    @Override
-    void display() {
-        System.out.println(getId() + " - " + getTitle()
-                + " - " + (borrowed ? "Borrowed" : "Available"));
-    }
-
-    @Override
     public void borrow() {
         if (borrowed) {
             System.out.println("Book already borrowed.");
@@ -50,16 +39,19 @@ class Book extends Item implements Borrowable {
             System.out.println("Book borrowed: " + getTitle());
         }
     }
+
+    void display() {
+        System.out.println(getId() + " - " + getTitle()
+                + " - " + (borrowed ? "Borrowed" : "Available"));
+    }
 }
 
-// Custom exception
 class ItemNotFoundException extends Exception {
     ItemNotFoundException(String message) {
         super(message);
     }
 }
 
-// Generic repository
 class Repository<T> {
     private List<T> items = new ArrayList<>();
 
@@ -72,7 +64,6 @@ class Repository<T> {
     }
 }
 
-// Stack ADT
 class HistoryStack<T> {
     private Stack<T> stack = new Stack<>();
 
@@ -82,37 +73,34 @@ class HistoryStack<T> {
 
     T pop() {
         if (stack.empty()) {
-            System.out.println("History is empty.");
             return null;
         }
         return stack.pop();
     }
 }
 
-// Library contains a repository and history stack
 class Library {
-    private Repository<Book> repository = new Repository<>();
+    private Repository<Book> books = new Repository<>();
     private HistoryStack<String> history = new HistoryStack<>();
 
     void addBook(Book book) {
-        repository.add(book);
+        books.add(book);
     }
 
     void showBooks() {
-        for (Book book : repository.getAll()) {
+        for (Book book : books.getAll()) {
             book.display();
         }
     }
 
     void borrowBook(int id) throws ItemNotFoundException {
-        for (Book book : repository.getAll()) {
+        for (Book book : books.getAll()) {
             if (book.getId() == id) {
                 book.borrow();
                 history.push("Borrowed book ID: " + id);
                 return;
             }
         }
-
         throw new ItemNotFoundException("Book not found!");
     }
 
@@ -121,7 +109,7 @@ class Library {
     }
 }
 
-public class Practical10 {
+public class Main {
     public static void main(String[] args) {
         Library library = new Library();
 
@@ -146,4 +134,3 @@ public class Practical10 {
         library.showLastAction();
     }
 }
-
