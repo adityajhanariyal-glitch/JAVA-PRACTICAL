@@ -1,18 +1,21 @@
 
 class StackADT {
-    private int[] arr;
-    private int top = -1;
+    int[] arr;
+    int top;
+    int size;
 
     StackADT(int size) {
+        this.size = size;
         arr = new int[size];
+        top = -1;
     }
 
     void push(int value) {
-        if (top == arr.length - 1) {
+        if (top == size - 1) {
             System.out.println("Stack Overflow");
-            return;
+        } else {
+            arr[++top] = value;
         }
-        arr[++top] = value;
     }
 
     int pop() {
@@ -37,20 +40,24 @@ class StackADT {
 }
 
 class QueueADT {
-    private int[] arr;
-    private int front = 0, rear = -1, count = 0;
+    int[] arr;
+    int front, rear, size, count;
 
     QueueADT(int size) {
+        this.size = size;
         arr = new int[size];
+        front = 0;
+        rear = -1;
+        count = 0;
     }
 
     void enqueue(int value) {
-        if (count == arr.length) {
+        if (count == size) {
             System.out.println("Queue Overflow");
             return;
         }
 
-        rear = (rear + 1) % arr.length;
+        rear = (rear + 1) % size;
         arr[rear] = value;
         count++;
     }
@@ -62,7 +69,7 @@ class QueueADT {
         }
 
         int value = arr[front];
-        front = (front + 1) % arr.length;
+        front = (front + 1) % size;
         count--;
         return value;
     }
@@ -80,7 +87,7 @@ class QueueADT {
     }
 }
 
-public class Practical8 {
+public class Main {
     public static void main(String[] args) {
         StackADT stack = new StackADT(3);
 
@@ -106,4 +113,3 @@ public class Practical8 {
         System.out.println("Queue Empty: " + queue.isEmpty());
     }
 }
-
